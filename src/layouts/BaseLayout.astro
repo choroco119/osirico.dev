@@ -1,0 +1,108 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "osiri cooperation - ポータルサイト" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} | osirico.dev</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <header class="main-header">
+      <nav class="container nav-content">
+        <a href="/" class="logo">
+          <span class="osirico">osirico</span><span class="dev">.dev</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="/live">LIVE</a></li>
+          <li><a href="/apps/web">WEB APPS</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <slot />
+    </main>
+
+    <footer class="container main-footer">
+      <p>&copy; 2026 osiri cooperation. Built with Astro & Premium Research.</p>
+    </footer>
+
+    <style>
+      .main-header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        margin-bottom: 40px;
+        background: rgba(15, 16, 20, 0.95);
+        border-bottom: 1px solid var(--border-color);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+
+      .nav-content {
+        height: 66px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        background: linear-gradient(135deg, #00aaff 0%, #818cf8 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: flex;
+        gap: 0.2rem;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 24px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        transition: color 0.2s;
+      }
+
+      .nav-links a:hover {
+        color: var(--accent);
+      }
+
+      .main-footer {
+        margin-top: 80px;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        border-top: 1px solid var(--border-color);
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+      }
+    </style>
+  </body>
+</html>

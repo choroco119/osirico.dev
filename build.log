@@ -1,0 +1,133 @@
+﻿
+> osirico-dev@0.0.1 build
+> astro build
+
+node.exe : 2026-04-01T11:47:01.952Z astro:telemetry [not
+ify] last notified on 1774959822708
+発生場所 行:1 文字:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files
+\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (2026-04-01 
+   T11:4...n 1774959822708:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+2026-04-01T11:47:02.887Z astro:Failed to load config wit
+h Node Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package su
+bpath './app/manifest' is not defined by "exports" in C:
+\Users\kohei\.gemini\antigravity\scratch\osiricoop-dev\n
+ode_modules\astro\package.json imported from C:\Users\ko
+hei\.gemini\antigravity\scratch\osiricoop-dev\node_modul
+es\@astrojs\cloudflare\dist\prerenderer.js
+    at exportsNotFound (node:internal/modules/esm/resolv
+e:314:10)
+    at packageExportsResolve (node:internal/modules/esm/
+resolve:662:9)
+    at packageResolve (node:internal/modules/esm/resolve
+:774:12)
+    at moduleResolve (node:internal/modules/esm/resolve:
+859:18)
+    at defaultResolve (node:internal/modules/esm/resolve
+:991:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/
+loader:719:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:interna
+l/modules/esm/loader:736:38)
+    at ModuleLoader.resolveSync (node:internal/modules/e
+sm/loader:765:52)
+    at #resolve (node:internal/modules/esm/loader:701:17
+)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/
+modules/esm/loader:621:35)
+[2m20:47:02[22m [31m[1m[vite][22m[39m [31mError w
+hen evaluating SSR module C:\Users\kohei\.gemini\antigra
+vity\scratch\osiricoop-dev\astro.config.mjs: failed to i
+mport "@astrojs/cloudflare"
+|- Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpat
+h './app/manifest' is not defined by "exports" in C:\Use
+rs\kohei\.gemini\antigravity\scratch\osiricoop-dev\node_
+modules\astro\package.json imported from C:\Users\kohei\
+.gemini\antigravity\scratch\osiricoop-dev\node_modules\@
+astrojs\cloudflare\dist\prerenderer.js
+    at exportsNotFound (node:internal/modules/esm/resolv
+e:314:10)
+    at packageExportsResolve (node:internal/modules/esm/
+resolve:662:9)
+    at packageResolve (node:internal/modules/esm/resolve
+:774:12)
+    at moduleResolve (node:internal/modules/esm/resolve:
+859:18)
+    at defaultResolve (node:internal/modules/esm/resolve
+:991:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/
+loader:719:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:interna
+l/modules/esm/loader:736:38)
+    at ModuleLoader.resolveSync (node:internal/modules/e
+sm/loader:765:52)
+    at #resolve (node:internal/modules/esm/loader:701:17
+)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/
+modules/esm/loader:621:35)
+[39m
+[astro] Unable to load your Astro config
+
+2026-04-01T11:47:02.973Z astro:telemetry {
+  context: {
+    isGit: false,
+    anonymousProjectId: '189d0d7fb40211ff02521b3c4b73ee3
+1fcbeb77daf4cfdd295b0a51579440da1',
+    packageManager: 'npm',
+    packageManagerVersion: '11.11.0',
+    anonymousId: '7f02d6881b4b49e929e16882fe85b6c15ca710
+59e5d6e6a67ea51b56fd0b52f3',
+    anonymousSessionId: '1d52b2544fb29669a7a166005c39c6e
+2168c2cdc163e87dc896553a2998d5159'
+  },
+  meta: {
+    nodeVersion: '24.14.1',
+    viteVersion: '5.4.21',
+    astroVersion: '4.16.19',
+    systemPlatform: 'win32',
+    systemRelease: '10.0.26200',
+    systemArchitecture: 'x64',
+    cpuCount: 12,
+    cpuModel: 'AMD Ryzen 5 5600X 6-Core Processor       
+      ',
+    cpuSpeed: 3693,
+    memoryInMb: 32668,
+    isDocker: false,
+    isTTY: undefined,
+    isWSL: false,
+    isCI: false,
+    ciName: null
+  }
+}
+2026-04-01T11:47:02.973Z astro:telemetry [
+  {
+    "eventName": "ASTRO_CLI_ERROR",
+    "payload": {
+      "name": "Error",
+      "cliCommand": "build",
+      "isFatal": true,
+      "anonymousMessageHint": "Package subpath"
+    }
+  }
+]
+Package subpath './app/manifest' is not defined by "expo
+rts" in C:\Users\kohei\.gemini\antigravity\scratch\osiri
+coop-dev\node_modules\astro\package.json imported from C
+:\Users\kohei\.gemini\antigravity\scratch\osiricoop-dev\
+node_modules\@astrojs\cloudflare\dist\prerenderer.js
+  Stack trace:
+    at exportsNotFound (node:internal/modules/esm/resolv
+e:314:10)
+    at packageResolve (node:internal/modules/esm/resolve
+:774:12)
+    at defaultResolve (node:internal/modules/esm/resolve
+:991:11)
+    at #resolveAndMaybeBlockOnLoaderThread (node:interna
+l/modules/esm/loader:736:38)
+    at #resolve (node:internal/modules/esm/loader:701:17
+)

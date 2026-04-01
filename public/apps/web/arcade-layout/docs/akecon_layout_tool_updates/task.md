@@ -1,0 +1,21 @@
+# Task List - Arcade Stick Layout Tool updates (Phase 3)
+
+- [ ] UI: Add PC operation instructions
+    - [ ] Create `#pc-instructions` container in `index.html`
+    - [ ] Style floating panel in `styles.css`
+- [ ] UI: Add Mobile operation instructions
+    - [ ] Add '説明' tab button to `.mobile-nav` in `index.html`
+    - [ ] Create `#sidebar-info` panel in `index.html`
+    - [ ] Add mobile-specific styles and tab handling in `script.js`
+- [ ] Logic: Multi-selection key `Ctrl` -> `Shift`
+    - [ ] Update `canvasViewportEl` mousedown handler in `script.js`
+    - [ ] Update `handleMouseDown` part selection in `script.js`
+    - [ ] Update `handleMouseDown` marquee start in `script.js`
+- [ ] Logic: CSV Export/Import with Canvas Size
+    - [ ] Update CSV header/columns to include `canvasW` and `canvasH`
+    - [ ] Implement export logic in `btn-export-csv` handler
+    - [ ] Implement import logic in `btn-import-csv` handler (and update UI inputs)
+- [ ] Verify multi-selection with `Shift`
+- [ ] Verify CSV export/import with canvas size
+- [ ] Verify UI instructions on PC and Mobile
+- [ ] Update `walkthrough.md`

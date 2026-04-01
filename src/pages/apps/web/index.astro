@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const webApps = [
+  {
+    id: 'arcade-layout',
+    title: 'ARCADE CONTROLLER LAYOUT DESIGNER',
+    desc: 'アーケードコントローラーのレイアウトシミュレーションツール',
+    path: '/apps/web/arcade-layout',
+    icon: '🕹️'
+  }
+];
+---
+
+<BaseLayout title="WEB APPS">
+  <div class="apps-header">
+    <h2 class="sub-title">TOOLBOX</h2>
+    <h1 class="page-title">Web Applications</h1>
+    <p class="intro">
+      ブラウザ上で動作する各種ツール
+    </p>
+  </div>
+
+  <div class="apps-grid">
+    {webApps.map(app => (
+      <a href={app.path} class="app-card glass-panel glow-on-hover">
+        <div class="app-icon">{app.icon}</div>
+        <div class="app-info">
+          <h3>{app.title}</h3>
+          <p>{app.desc}</p>
+        </div>
+        <div class="external-link">Launch Application ↗</div>
+      </a>
+    ))}
+  </div>
+
+  <style>
+    .apps-header {
+      margin-bottom: 60px;
+      text-align: center;
+    }
+
+    .sub-title {
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.3em;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .page-title {
+      font-size: 3.5rem;
+      margin-bottom: 24px;
+      color: #fff;
+    }
+
+    .intro {
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 32px;
+    }
+
+    .app-card {
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: relative;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .app-icon {
+      font-size: 3rem;
+    }
+
+    .app-info h3 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .app-info p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .external-link {
+      margin-top: auto;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .app-card:hover .external-link {
+      color: #fff;
+      text-shadow: 0 0 10px var(--accent-glow);
+    }
+  </style>
+</BaseLayout>

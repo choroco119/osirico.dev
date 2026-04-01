@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ARCADE CONTROLLER LAYOUT DESIGNER</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="/apps/web/arcade-layout/styles.css" />
+</head>
+<body>
+    <div id="app">
+        <header class="top-bar">
+            <div class="logo">
+                <a href="/apps/web/" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                    <div style="background: var(--accent); color: white; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 12px;">PORTAL</div>
+                </a>
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="32" rx="8" fill="var(--accent)" />
+                    <!-- Lever stick -->
+                    <rect x="15" y="12" width="2" height="10" fill="white" />
+                    <!-- Lever ball -->
+                    <circle cx="16" cy="10" r="4" fill="white" />
+                    <!-- Lever base -->
+                    <rect x="8" y="22" width="16" height="4" rx="1" fill="white" />
+                </svg>
+                <h1>ARCADE CONTROLLER LAYOUT DESIGNER</h1>
+            </div>
+            <div class="top-actions">
+                <button id="btn-readme" class="btn btn-secondary" style="width: auto;">使い方</button>
+                <button id="btn-export-csv" class="btn btn-secondary" style="width: auto;">CSV保存</button>
+                <button id="btn-import-csv" class="btn btn-secondary" style="width: auto;">CSV読込</button>
+                <button id="btn-clear" class="btn btn-danger" style="width: auto;">クリア</button>
+            </div>
+        </header>
+
+        <nav class="mobile-nav">
+            <button id="btn-nav-left" class="nav-btn active">パーツ</button>
+            <button id="btn-nav-main" class="nav-btn">キャンバス</button>
+            <button id="btn-nav-right" class="nav-btn">プロパティ</button>
+            <button id="btn-nav-info" class="nav-btn">操作</button>
+        </nav>
+
+        <main class="main-content">
+            <!-- Left Sidebar: Parts Library -->
+            <aside id="sidebar-parts" class="sidebar">
+                <section class="panel">
+                    <h3>サイズ設定</h3>
+                    <div class="input-group">
+                        <label>幅 (W):</label>
+                        <input type="number" id="canvas-width" value="400">
+                    </div>
+                    <div class="input-group">
+                        <label>高 (H):</label>
+                        <input type="number" id="canvas-height" value="250">
+                    </div>
+                    <button id="btn-resize-canvas" class="btn btn-primary">サイズ更新</button>
+                </section>
+
+                <section class="panel">
+                    <h3>パーツを追加</h3>
+                    <div class="parts-section">
+                        <div class="part-category collapsed">
+                            <div class="part-category-title"><span>🕹️</span> レバー / レバーレス</div>
+                            <div id="levers-grid" class="parts-grid-container"></div>
+                        </div>
+                        <div class="part-category collapsed">
+                            <div class="part-category-title"><span>🔘</span> ボタン</div>
+                            <div id="buttons-grid" class="parts-grid-container"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <h3>プリセットレイアウト</h3>
+                    <div id="layouts-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
+                </section>
+
+                <section class="panel">
+                    <h3>背景画像 (下絵)</h3>
+                    <div class="input-group">
+                        <input type="file" id="bg-upload" accept="image/*" hidden>
+                        <label for="bg-upload" id="bg-upload-label" class="btn btn-secondary" style="text-align: center; font-size: 0.75rem; border: 1px dashed var(--accent); cursor: pointer; height: auto; padding: 12px;">
+                            ファイル未選択
+                        </label>
+                    </div>
+                    <div class="input-group">
+                        <label>不透明度</label>
+                        <input type="range" id="bg-opacity" min="0" max="100" value="50">
+                    </div>
+                    <div class="input-group">
+                        <label>スケール: <span id="bg-scale-val">1.00x</span></label>
+                        <input type="range" id="bg-scale" min="0.1" max="5.0" step="0.01" value="1.0">
+                    </div>
+                    <div class="input-group">
+                        <label>位置 X (mm)</label>
+                        <input type="number" id="bg-x" value="0">
+                    </div>
+                    <div class="input-group">
+                        <label>位置 Y (mm)</label>
+                        <input type="number" id="bg-y" value="0">
+                    </div>
+                    <button id="btn-bg-clear" class="btn btn-danger" style="background: rgba(239, 68, 68, 0.05); width: 100%; height: auto; padding: 10px;">画像を削除</button>
+                </section>
+            </aside>
+
+            <!-- Center: Canvas Viewport -->
+            <section id="main-view" class="canvas-viewport active">
+                <div id="selection-marquee" class="selection-marquee"></div>
+                <div id="canvas-container" class="canvas-container">
+                    <img id="bg-layer" class="canvas-bg" style="display: none;" />
+                    <div id="canvas" class="canvas"></div>
+                    <div class="origin-marker"></div>
+                    <div class="origin-label">0,0</div>
+                </div>
+            </section>
+
+            <!-- Right Sidebar: Properties -->
+            <aside id="sidebar-props" class="sidebar right-sidebar">
+                <div id="property-panel" class="panel" style="display: none;">
+                    <h3 id="prop-title">パーツ詳細</h3>
+                    <div id="prop-controls">
+                        <div class="input-group" id="prop-group-name">
+                            <label>ラベル / 名称</label>
+                            <input type="text" id="prop-name">
+                        </div>
+                        <div class="input-group" id="prop-group-type">
+                            <label>製品タイプ</label>
+                            <select id="prop-type"></select>
+                        </div>
+                        <div id="prop-divider" style="height: 1px; background: var(--border-color); margin: 15px 0;"></div>
+                        <div class="input-group" id="prop-group-x">
+                            <label>X (mm)</label>
+                            <input type="number" id="prop-x">
+                        </div>
+                        <div class="input-group" id="prop-group-y">
+                            <label>Y (mm)</label>
+                            <input type="number" id="prop-y">
+                        </div>
+                        <div class="input-group" id="prop-group-hole">
+                            <label>穴径 (φ)</label>
+                            <input type="number" id="prop-hole" step="0.1">
+                        </div>
+                        <div class="input-group" id="prop-group-outer">
+                            <label>外径 (mm)</label>
+                            <input type="number" id="prop-outer" step="0.1">
+                        </div>
+                        <div class="input-group" id="prop-group-w">
+                            <label>外形 幅 (mm)</label>
+                            <input type="number" id="prop-outer-w" step="0.1">
+                        </div>
+                        <div class="input-group" id="prop-group-h">
+                            <label>外形 高 (mm)</label>
+                            <input type="number" id="prop-outer-h" step="0.1">
+                        </div>
+                        <div class="input-group" id="prop-group-rotate" style="flex-direction: row; align-items: center; gap: 10px;">
+                            <input type="checkbox" id="prop-rotate-90">
+                            <label for="prop-rotate-90">90度回転</label>
+                        </div>
+                        <div class="input-group" id="prop-group-lock" style="flex-direction: row; align-items: center; gap: 10px;">
+                            <input type="checkbox" id="prop-lock">
+                            <label for="prop-lock">位置を固定</label>
+                        </div>
+                        
+                        <button id="btn-delete-part" class="btn btn-danger" style="margin-top: 10px;">選択中パーツを削除</button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Info Panel (Mobile Only) -->
+            <aside id="sidebar-info" class="sidebar">
+                <div class="panel">
+                    <h3>操作ガイド (詳細)</h3>
+                    <div class="instr-group">
+                        <h5>基本操作</h5>
+                        <ul style="list-style: none; padding: 0;">
+                            <li><strong>パーツ追加:</strong> 「パーツ」メニューから</li>
+                            <li><strong>選択/解除:</strong> タップ / 背景タップ</li>
+                        </ul>
+                    </div>
+                    <div class="instr-group">
+                        <h5>パーツ操作</h5>
+                        <ul style="list-style: none; padding: 0;">
+                            <li><strong>移動/削除:</strong> スワイプ / 削除ボタン</li>
+                            <li><strong>衝突警告:</strong> 重なると赤枠表示</li>
+                        </ul>
+                    </div>
+                    <div class="instr-group">
+                        <h5>背景・データ</h5>
+                        <ul style="list-style: none; padding: 0;">
+                            <li><strong>下絵調整:</strong> 「パーツ」メニュー内</li>
+                            <li><strong>保存/読込:</strong> CSV操作</li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <section id="pc-instructions" class="pc-instructions">
+            <div id="pc-instructions-header" class="pc-instructions-header">
+                <h4 id="pc-instructions-toggle">操作ガイド</h4>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="pc-instructions-content">
+                <div class="instr-group">
+                    <h5>基本操作</h5>
+                    <ul>
+                        <li>パーツを追加 <span>左メニューから作成</span></li>
+                        <li>選択 / 解除 <span>クリック / 空白クリック</span></li>
+                        <li>複数選択 <span>Shift + クリック / 範囲ドラッグ</span></li>
+                    </ul>
+                </div>
+                <div class="instr-group">
+                    <h5>パーツ操作</h5>
+                    <ul>
+                        <li>移動 / 微調整 <span>ドラッグ / 矢印キー(1mm)</span></li>
+                        <li>複製 / 削除 <span>Ctrl+ドラッグ / Delete</span></li>
+                        <li>衝突警告 <span>重なると赤枠を表示</span></li>
+                    </ul>
+                </div>
+                <div class="instr-group">
+                    <h5>背景・データ</h5>
+                    <ul>
+                        <li>下絵調整 <span>左メニュー(透過・拡大・移動)</span></li>
+                        <li>保存 / 読込 <span>ヘッダーからCSV操作</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- README Manual Modal -->
+    <div id="modal-readme" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Arcade Controller Layout Designer 使い方</h2>
+                <button id="btn-close-modal" class="close-btn">&times;</button>
+            </div>
+            <div id="readme-container" class="markdown-body">
+                <!-- Content will be fetched from README.md -->
+                <p>読み込み中...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+        Logic is loaded from public directory to ensure 100% fidelity with the original source code
+        while staying integrated within the Astro project structure.
+    -->
+    <script is:inline src="/apps/web/arcade-layout/script.js"></script>
+    <script is:inline>
+        // Update paths for JSON presets in the script context
+        // This relies on the original script.js structure but sets absolute paths before it starts
+        // Since script.js's loadPresets uses relative paths by default, we ensure they point to public/apps/web/akecon-layout-tool/
+        
+        // Note: The original script.js has an init() call at the bottom.
+        // We need to make sure those JSON fetches hit the correct absolute path.
+    </script>
+</body>
+</html>
+
+<style>
+    /* Ensure the page takes full viewport without overflow issues */
+    :global(body) {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+</style>

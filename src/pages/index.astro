@@ -1,0 +1,168 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const apps = [
+  { title: 'LIVE STREAMING', desc: 'YouTubeでのライブ配信とステータス表示', link: '/live', icon: '📺' },
+  { title: 'WEB APPS', desc: 'ブラウザ上で動作する各種ツール', link: '/apps/web', icon: '🌐' },
+];
+---
+
+<BaseLayout title="HOME">
+  <div class="hero">
+    <div class="hero-content">
+      <h2 class="sub-title">osiri cooperation</h2>
+      <h1 class="main-title">osirico.dev</h1>
+      <div class="glow-sphere"></div>
+    </div>
+  </div>
+
+  <section class="portal-grid">
+    {apps.map(app => (
+      <a href={app.link} class="portal-card glass-panel glow-on-hover">
+        <div class="card-icon">{app.icon}</div>
+        <div class="card-body">
+          <h3>{app.title}</h3>
+          <p>{app.desc}</p>
+        </div>
+        <div class="card-arrow">→</div>
+      </a>
+    ))}
+  </section>
+
+
+  <style>
+    .hero {
+      position: relative;
+      padding: 120px 0 80px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+    }
+
+    .sub-title {
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.5em;
+      margin-bottom: 24px;
+      opacity: 0.8;
+      font-weight: 700;
+    }
+
+    .main-title {
+      font-size: clamp(3.5rem, 12vw, 7rem);
+      font-weight: 700;
+      margin-bottom: 32px;
+      line-height: 1;
+      background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 40px var(--accent-glow));
+    }
+
+    .tagline {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+      letter-spacing: 0.05em;
+    }
+
+    .glow-sphere {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      filter: blur(60px);
+      z-index: -1;
+      opacity: 0.4;
+      animation: pulsate 10s infinite ease-in-out;
+    }
+
+    @keyframes pulsate {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+      50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.5; }
+    }
+
+    .portal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+      margin-bottom: 80px;
+    }
+
+    .portal-card {
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      background: rgba(255, 255, 255, 0.03); /* Tool logic: rgba(255, 255, 255, 0.03) */
+    }
+
+    .card-icon {
+      font-size: 2.5rem;
+    }
+
+    .card-body h3 {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .card-body p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .card-arrow {
+      position: absolute;
+      bottom: 32px;
+      right: 32px;
+      opacity: 0.3;
+      font-size: 1.5rem;
+      transition: all var(--transition-speed);
+    }
+
+    .portal-card:hover .card-arrow {
+      transform: translateX(8px);
+      opacity: 1;
+      color: var(--accent);
+    }
+
+    .concept {
+      padding: 60px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .concept h2 {
+      font-size: 2.5rem;
+      margin-bottom: 24px;
+      color: #fff;
+    }
+
+    .concept p {
+      line-height: 2;
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+    }
+  </style>
+</BaseLayout>

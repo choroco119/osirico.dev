@@ -1,0 +1,196 @@
+{
+    "OBSF-24": {
+        "category": "button",
+        "maker": "三和電子",
+        "shape": "circle",
+        "hole_dia": 24,
+        "outer_dia": 27.2,
+        "label": "OBSF-24"
+    },
+    "OBSC-24": {
+        "category": "button",
+        "maker": "三和電子",
+        "shape": "circle",
+        "hole_dia": 24,
+        "outer_dia": 27.5,
+        "label": "OBSC-24"
+    },
+    "OBSJ-24": {
+        "category": "button",
+        "maker": "三和電子",
+        "shape": "circle",
+        "hole_dia": 24,
+        "outer_dia": 27.5,
+        "label": "OBSJ-24"
+    },
+    "OBSC-30": {
+        "category": "button",
+        "maker": "三和電子",
+        "shape": "circle",
+        "hole_dia": 30,
+        "outer_dia": 33.6,
+        "label": "OBSC-30"
+    },
+    "OBSF-30": {
+        "category": "button",
+        "maker": "三和電子",
+        "shape": "circle",
+        "hole_dia": 30,
+        "outer_dia": 33.2,
+        "label": "OBSF-30"
+    },
+    "OBSFE-30": {
+        "category": "button",
+        "maker": "三和電子",
+        "shape": "circle",
+        "hole_dia": 30,
+        "outer_dia": 33.2,
+        "label": "OBSFE-30"
+    },
+    "OBSJ-30": {
+        "category": "button",
+        "maker": "三和電子",
+        "shape": "circle",
+        "hole_dia": 30,
+        "outer_dia": 33.6,
+        "label": "OBSJ-30"
+    },
+    "OBSF-40": {
+        "category": "button",
+        "maker": "三和電子",
+        "shape": "circle",
+        "hole_dia": 40,
+        "outer_dia": 46,
+        "label": "OBSF-40"
+    },
+    "PS-14-D": {
+        "category": "button",
+        "maker": "セイミツ工業",
+        "shape": "circle",
+        "hole_dia": 24,
+        "outer_dia": 26.7,
+        "label": "PS-14-D"
+    },
+    "PS-14-DN": {
+        "category": "button",
+        "maker": "セイミツ工業",
+        "shape": "circle",
+        "hole_dia": 24,
+        "outer_dia": 28.4,
+        "label": "PS-14-DN"
+    },
+    "PS-14-DN-K": {
+        "category": "button",
+        "maker": "セイミツ工業",
+        "shape": "circle",
+        "hole_dia": 24,
+        "outer_dia": 28.4,
+        "label": "PS-14-DN-K"
+    },
+    "PS-14-G": {
+        "category": "button",
+        "maker": "セイミツ工業",
+        "shape": "circle",
+        "hole_dia": 30,
+        "outer_dia": 34.5,
+        "label": "PS-14-G"
+    },
+    "PS-14-GN": {
+        "category": "button",
+        "maker": "セイミツ工業",
+        "shape": "circle",
+        "hole_dia": 30,
+        "outer_dia": 35,
+        "label": "PS-14-GN"
+    },
+    "PS-14-K": {
+        "category": "button",
+        "maker": "セイミツ工業",
+        "shape": "circle",
+        "hole_dia": 30,
+        "outer_dia": 33,
+        "label": "PS-14-K"
+    },
+    "PS-14-KN": {
+        "category": "button",
+        "maker": "セイミツ工業",
+        "shape": "circle",
+        "hole_dia": 30,
+        "outer_dia": 35,
+        "label": "PS-14-KN"
+    },
+    "PS-15": {
+        "category": "button",
+        "maker": "セイミツ工業",
+        "shape": "circle",
+        "hole_dia": 30,
+        "outer_dia": 32.9,
+        "label": "PS-15"
+    },
+    "SSPS-24N": {
+        "category": "button",
+        "maker": "セイミツ工業",
+        "shape": "circle",
+        "hole_dia": 24,
+        "outer_dia": 28.8,
+        "label": "SSPS-24N"
+    },
+    "SSPS-30N": {
+        "category": "button",
+        "maker": "セイミツ工業",
+        "shape": "circle",
+        "hole_dia": 30,
+        "outer_dia": 35,
+        "label": "SSPS-30N"
+    },
+    "ST-L1 24φ": {
+        "category": "button",
+        "maker": "Sitong",
+        "shape": "circle",
+        "hole_dia": 24,
+        "outer_dia": 27.8,
+        "label": "ST-L1 24φ"
+    },
+    "ST-L1 30φ": {
+        "category": "button",
+        "maker": "Sitong",
+        "shape": "circle",
+        "hole_dia": 30,
+        "outer_dia": 33.8,
+        "label": "ST-L1 30φ"
+    },
+    "ST-L2 24φ": {
+        "category": "button",
+        "maker": "Sitong",
+        "shape": "circle",
+        "hole_dia": 24,
+        "outer_dia": 27.8,
+        "label": "ST-L2 24φ"
+    },
+    "ST-L2 30φ": {
+        "category": "button",
+        "maker": "Sitong",
+        "shape": "circle",
+        "hole_dia": 30,
+        "outer_dia": 33.8,
+        "label": "ST-L2 30φ"
+    },
+    "JLF-TP-8": {
+        "category": "lever",
+        "maker": "三和電子",
+        "shape": "rect",
+        "hole_dia": 24,
+        "outer_w": 53,
+        "outer_h": 95,
+        "label": "JLF-TP-8"
+    },
+    "LS-32-SC": {
+        "category": "lever",
+        "maker": "セイミツ工業",
+        "shape": "rect",
+        "hole_dia": 24,
+        "outer_w": 65,
+        "outer_h": 97,
+        "label": "LS-32-SC"
+    }
+}
