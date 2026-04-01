@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-// Cloudflare Runtime 環境からの環境変数取得 (SSR)
-const runtime = Astro.locals.runtime;
-const CHANNEL_ID = runtime?.env?.PUBLIC_YOUTUBE_CHANNEL_ID || import.meta.env.PUBLIC_YOUTUBE_CHANNEL_ID || "YOUR_CHANNEL_ID";
-const API_KEY = runtime?.env?.YOUTUBE_API_KEY || import.meta.env.YOUTUBE_API_KEY;
-const MANUALLY_SET_VIDEO_ID = runtime?.env?.PUBLIC_CURRENT_LIVE_ID || import.meta.env.PUBLIC_CURRENT_LIVE_ID;
+import { env } from 'cloudflare:workers';
+
+// 環境変数の取得 (Astro 6 Cloudflare Adapter 対応)
+const CHANNEL_ID = (env as any).PUBLIC_YOUTUBE_CHANNEL_ID || import.meta.env.PUBLIC_YOUTUBE_CHANNEL_ID || "YOUR_CHANNEL_ID";
+const API_KEY = (env as any).YOUTUBE_API_KEY || import.meta.env.YOUTUBE_API_KEY;
+const MANUALLY_SET_VIDEO_ID = (env as any).PUBLIC_CURRENT_LIVE_ID || import.meta.env.PUBLIC_CURRENT_LIVE_ID;
 
 let isLive = false;
 let videoId = MANUALLY_SET_VIDEO_ID || null;
