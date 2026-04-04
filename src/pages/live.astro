@@ -1,38 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { env } from 'cloudflare:workers';
+import { getLiveStatus } from '../lib/youtube';
 
 // 環境変数の取得 (Astro 6 Cloudflare Adapter 対応)
 const CHANNEL_ID = (env as any).PUBLIC_YOUTUBE_CHANNEL_ID || import.meta.env.PUBLIC_YOUTUBE_CHANNEL_ID || "YOUR_CHANNEL_ID";
 const MANUALLY_SET_VIDEO_ID = (env as any).PUBLIC_CURRENT_LIVE_ID || import.meta.env.PUBLIC_CURRENT_LIVE_ID;
 
-let isLive = false;
-let videoId = MANUALLY_SET_VIDEO_ID || null;
+// 共通ライブラリを使用して配信状態を取得
+const { isLive, videoId } = await getLiveStatus(CHANNEL_ID, MANUALLY_SET_VIDEO_ID);
 
 // 共有キャッシュの設定 (3分間 CDN に保存し、裏側でさらに最大10分間再検証を許容)
 Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-revalidate=600');
-
-// 手動 ID が設定されていない場合のみ、oEmbed で自動取得を試みる (API クォータ消費 0)
-if (!videoId && CHANNEL_ID) {
-  try {
-    const oembedUrl = `https://www.youtube.com/oembed?url=https://www.youtube.com/channel/${CHANNEL_ID}/live&format=json`;
-    const response = await fetch(oembedUrl);
-    
-    if (response.ok) {
-      const data = await response.json();
-      // html フィールドから embed/VIDEO_ID を抽出する正規表現
-      const match = data.html?.match(/embed\/([a-zA-Z0-9_-]{11})/);
-      if (match && match[1]) {
-        videoId = match[1];
-        isLive = true;
-      }
-    }
-  } catch (e) {
-    console.error("Failed to fetch live status via oEmbed:", e);
-  }
-} else if (videoId) {
-  isLive = true;
-}
 
 // 最終的なプレイヤー URL
 const embedUrl = videoId 

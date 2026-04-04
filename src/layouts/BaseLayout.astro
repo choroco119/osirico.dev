@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import { env } from 'cloudflare:workers';
+import { getLiveStatus } from '../lib/youtube';
 
 interface Props {
   title: string;
@@ -7,6 +9,14 @@ interface Props {
 }
 
 const { title, description = "osiri cooperation - ポータルサイト" } = Astro.props;
+
+// 配信状態の取得
+const CHANNEL_ID = (env as any)?.PUBLIC_YOUTUBE_CHANNEL_ID || import.meta.env.PUBLIC_YOUTUBE_CHANNEL_ID || "YOUR_CHANNEL_ID";
+const MANUALLY_SET_VIDEO_ID = (env as any)?.PUBLIC_CURRENT_LIVE_ID || import.meta.env.PUBLIC_CURRENT_LIVE_ID;
+const { isLive } = await getLiveStatus(CHANNEL_ID, MANUALLY_SET_VIDEO_ID);
+
+// サイト全体に共有キャッシュを設定 (3分間)
+Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-revalidate=600');
 ---
 
 <!doctype html>
@@ -29,7 +39,12 @@ const { title, description = "osiri cooperation - ポータルサイト" } = Ast
           <span class="osirico">osiri.co</span>
         </a>
         <ul class="nav-links">
-          <li><a href="/live">LIVE</a></li>
+          <li>
+            <a href="/live" class="nav-live-link">
+              LIVE
+              {isLive && <span class="live-indicator" aria-hidden="true"></span>}
+            </a>
+          </li>
           <li><a href="/apps/web">WEB APPS</a></li>
         </ul>
       </nav>
@@ -89,10 +104,36 @@ const { title, description = "osiri cooperation - ポータルサイト" } = Ast
         text-transform: uppercase;
         letter-spacing: 0.05em;
         transition: color 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 100%;
       }
 
       .nav-links a:hover {
         color: var(--accent);
+      }
+
+      .live-indicator {
+        width: 8px;
+        height: 8px;
+        background-color: #ff4b2b;
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(255, 75, 43, 0.5);
+        animation: live-blink 2s infinite;
+        /* ドットの位置を視覚的に文字の高さに合わせる調整 */
+        margin-top: 1px;
+      }
+
+      @keyframes live-blink {
+        0%, 100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.4;
+          transform: scale(0.9);
+        }
       }
 
       .main-footer {
