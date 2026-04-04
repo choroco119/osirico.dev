@@ -19,9 +19,9 @@ const apps = [
   <section class="portal-grid">
     {apps.map(app => (
       <a href={app.link} class="portal-card glass-panel glow-on-hover" transition:name={app.transitionName}>
-        <div class="card-icon">{app.icon}</div>
+        <div class="card-icon" transition:name={`${app.transitionName}-icon`}>{app.icon}</div>
         <div class="card-body">
-          <h3>{app.title}</h3>
+          <h3 transition:name={`${app.transitionName}-title`}>{app.title}</h3>
           <p>{app.desc}</p>
         </div>
         <div class="card-arrow">→</div>

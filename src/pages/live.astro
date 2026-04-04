@@ -22,13 +22,16 @@ const embedUrl = videoId
 <BaseLayout title="LIVE">
   <div class="streaming-container" transition:name="live-hero">
     <div class="status-header glass-panel">
-      <div class="status-indicator">
-        <span class={`dot ${isLive ? 'live' : 'offline'}`}></span>
-        <span class="status-text">{isLive ? 'ON AIR' : 'OFFLINE'}</span>
+      <div class="status-icon" transition:name="live-hero-icon">📺</div>
+      <div class="status-info">
+        <div class="status-indicator">
+          <span class={`dot ${isLive ? 'live' : 'offline'}`}></span>
+          <span class="status-text">{isLive ? 'ON AIR' : 'OFFLINE'}</span>
+        </div>
+        <h2 class="stream-title" transition:name="live-hero-title">
+          {isLive ? 'Currently Streaming' : 'Live Stream Status (Auto-Follow)'}
+        </h2>
       </div>
-      <h2 class="stream-title">
-        {isLive ? 'Currently Streaming' : 'Live Stream Status (Auto-Follow)'}
-      </h2>
     </div>
 
     <div class={`video-grid ${videoId ? 'has-chat' : 'no-chat'}`}>
@@ -87,11 +90,22 @@ const embedUrl = videoId
     }
 
     .status-header {
-      padding: 16px 24px;
+      padding: 24px 32px;
       display: flex;
       align-items: center;
-      gap: 24px;
+      gap: 32px;
       border-left: 4px solid var(--accent);
+    }
+
+    .status-icon {
+      font-size: 3.5rem;
+      flex-shrink: 0;
+    }
+
+    .status-info {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
     .status-indicator {

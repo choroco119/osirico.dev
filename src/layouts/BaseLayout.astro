@@ -174,20 +174,32 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-r
     <style is:global>
       /* View Transitions Customizations */
       ::view-transition-group(live-hero),
-      ::view-transition-group(web-apps-hero) {
-        animation-duration: 0.5s;
-        animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+      ::view-transition-group(live-hero-icon),
+      ::view-transition-group(live-hero-title),
+      ::view-transition-group(web-apps-hero),
+      ::view-transition-group(web-apps-hero-icon),
+      ::view-transition-group(web-apps-hero-title) {
+        animation-duration: 0.6s;
+        animation-timing-function: cubic-bezier(0.85, 0, 0.15, 1);
       }
 
       /* ヒーロー要素が重なり順で最前面に来るように調整 */
       ::view-transition-new(live-hero),
-      ::view-transition-new(web-apps-hero) {
+      ::view-transition-new(live-hero-icon),
+      ::view-transition-new(live-hero-title),
+      ::view-transition-new(web-apps-hero),
+      ::view-transition-new(web-apps-hero-icon),
+      ::view-transition-new(web-apps-hero-title) {
         z-index: 100;
-        animation: none; /* デフォルトのフェードを無効化して形状変化に集中させる */
+        animation: none;
       }
 
       ::view-transition-old(live-hero),
-      ::view-transition-old(web-apps-hero) {
+      ::view-transition-old(live-hero-icon),
+      ::view-transition-old(live-hero-title),
+      ::view-transition-old(web-apps-hero),
+      ::view-transition-old(web-apps-hero-icon),
+      ::view-transition-old(web-apps-hero-title) {
         z-index: 100;
         animation: none;
       }
