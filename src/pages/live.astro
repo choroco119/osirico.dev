@@ -20,7 +20,7 @@ const embedUrl = videoId
 ---
 
 <BaseLayout title="LIVE">
-  <div class="streaming-container">
+  <div class="streaming-container" transition:name="live-hero">
     <div class="status-header glass-panel">
       <div class="status-indicator">
         <span class={`dot ${isLive ? 'live' : 'offline'}`}></span>

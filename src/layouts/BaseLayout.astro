@@ -57,7 +57,7 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-r
       </nav>
     </header>
 
-    <main class="container">
+    <main class="container" transition:animate="fade">
       <slot />
     </main>
 
@@ -169,6 +169,27 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-r
         color: var(--text-secondary);
         font-size: 0.75rem;
         letter-spacing: 0.05em;
+      }
+    </style>
+    <style is:global>
+      /* View Transitions Customizations */
+      ::view-transition-group(live-hero),
+      ::view-transition-group(web-apps-hero) {
+        animation-duration: 0.5s;
+        animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+      }
+
+      /* ヒーロー要素が重なり順で最前面に来るように調整 */
+      ::view-transition-new(live-hero),
+      ::view-transition-new(web-apps-hero) {
+        z-index: 100;
+        animation: none; /* デフォルトのフェードを無効化して形状変化に集中させる */
+      }
+
+      ::view-transition-old(live-hero),
+      ::view-transition-old(web-apps-hero) {
+        z-index: 100;
+        animation: none;
       }
     </style>
   </body>
