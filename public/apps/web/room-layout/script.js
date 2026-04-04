@@ -871,6 +871,7 @@ function updatePropertyPanel() {
         
         // Show object-specific props (might have been hidden by vertex selection)
         document.getElementById('object-specific-props').style.display = 'block';
+        document.getElementById('btn-duplicate-object').style.display = 'block';
         
         document.getElementById('btn-delete-object').innerText = isMulti ? '一括削除' : '削除';
 
@@ -937,6 +938,7 @@ function updatePropertyPanel() {
         document.getElementById('prop-title').innerText = '頂点詳細';
         document.getElementById('group-prop-name').style.display = 'none';
         document.getElementById('object-specific-props').style.display = 'none';
+        document.getElementById('btn-duplicate-object').style.display = 'none';
         document.getElementById('btn-delete-object').innerText = '頂点を削除';
 
         document.getElementById('prop-x').value = Math.round(v.x);
