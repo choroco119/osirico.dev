@@ -1,33 +1,43 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-
 import { env } from 'cloudflare:workers';
 
 // 環境変数の取得 (Astro 6 Cloudflare Adapter 対応)
 const CHANNEL_ID = (env as any).PUBLIC_YOUTUBE_CHANNEL_ID || import.meta.env.PUBLIC_YOUTUBE_CHANNEL_ID || "YOUR_CHANNEL_ID";
-const API_KEY = (env as any).YOUTUBE_API_KEY || import.meta.env.YOUTUBE_API_KEY;
 const MANUALLY_SET_VIDEO_ID = (env as any).PUBLIC_CURRENT_LIVE_ID || import.meta.env.PUBLIC_CURRENT_LIVE_ID;
 
 let isLive = false;
 let videoId = MANUALLY_SET_VIDEO_ID || null;
-let error = null;
 
-if (API_KEY && !videoId) {
+// 共有キャッシュの設定 (3分間 CDN に保存し、裏側でさらに最大10分間再検証を許容)
+Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-revalidate=600');
+
+// 手動 ID が設定されていない場合のみ、oEmbed で自動取得を試みる (API クォータ消費 0)
+if (!videoId && CHANNEL_ID) {
   try {
-    const response = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&type=video&eventType=live&key=${API_KEY}`
-    );
-    const data = await response.json();
-    if (data.items && data.items.length > 0) {
-      isLive = true;
-      videoId = data.items[0].id.videoId;
+    const oembedUrl = `https://www.youtube.com/oembed?url=https://www.youtube.com/channel/${CHANNEL_ID}/live&format=json`;
+    const response = await fetch(oembedUrl);
+    
+    if (response.ok) {
+      const data = await response.json();
+      // html フィールドから embed/VIDEO_ID を抽出する正規表現
+      const match = data.html?.match(/embed\/([a-zA-Z0-9_-]{11})/);
+      if (match && match[1]) {
+        videoId = match[1];
+        isLive = true;
+      }
     }
   } catch (e) {
-    error = "Failed to fetch live status.";
+    console.error("Failed to fetch live status via oEmbed:", e);
   }
 } else if (videoId) {
   isLive = true;
 }
+
+// 最終的なプレイヤー URL
+const embedUrl = videoId 
+  ? `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0`
+  : `https://www.youtube.com/embed/live_stream?channel=${CHANNEL_ID}`;
 ---
 
 <BaseLayout title="LIVE">
@@ -38,23 +48,23 @@ if (API_KEY && !videoId) {
         <span class="status-text">{isLive ? 'ON AIR' : 'OFFLINE'}</span>
       </div>
       <h2 class="stream-title">
-        {isLive ? 'Currently Streaming' : 'Live Stream Status'}
+        {isLive ? 'Currently Streaming' : 'Live Stream Status (Auto-Follow)'}
       </h2>
     </div>
 
-    {isLive ? (
-      <div class="video-grid">
-        <div class="video-wrapper glass-panel">
-          <iframe
-            width="100%"
-            height="100%"
-            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0`}
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
-        </div>
+    <div class={`video-grid ${videoId ? 'has-chat' : 'no-chat'}`}>
+      <div class="video-wrapper glass-panel">
+        <iframe
+          width="100%"
+          height="100%"
+          src={embedUrl}
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
 
+      {videoId && (
         <div class="chat-wrapper glass-panel">
           <div class="chat-header">LIVE CHAT</div>
           <iframe
@@ -63,12 +73,14 @@ if (API_KEY && !videoId) {
             src={`https://www.youtube.com/live_chat?v=${videoId}&embed_domain=${Astro.url.hostname}`}
           ></iframe>
         </div>
-      </div>
-    ) : (
+      )}
+    </div>
+
+    {!isLive && !videoId && (
       <div class="offline-placeholder glass-panel flex-center">
         <div class="offline-content">
           <div class="offline-icon">📡</div>
-          <h3>現在オフラインです</h3>
+          <h3>現在は配信外です</h3>
           <p>配信は不定期に行われます。最新の活動状況や告知は YouTube チャンネルをご確認ください。</p>
           <div class="offline-links">
             <a href={`https://www.youtube.com/channel/${CHANNEL_ID}`} class="btn-glow">YouTube チャンネルへ</a>
@@ -76,7 +88,6 @@ if (API_KEY && !videoId) {
         </div>
       </div>
     )}
-
   </div>
 
   <style is:global>
@@ -144,10 +155,16 @@ if (API_KEY && !videoId) {
 
     .video-grid {
       display: grid;
-      grid-template-columns: 1fr 380px;
       gap: 24px;
-      /* 画面高さに合わせて調整 */
       height: auto;
+    }
+
+    .video-grid.has-chat {
+      grid-template-columns: 1fr 380px;
+    }
+
+    .video-grid.no-chat {
+      grid-template-columns: 1fr;
     }
 
     .video-wrapper {
@@ -178,9 +195,10 @@ if (API_KEY && !videoId) {
     }
 
     .offline-placeholder {
-      min-height: 450px;
-      padding: 60px;
+      min-height: 250px;
+      padding: 40px;
       text-align: center;
+      margin-top: 24px;
     }
 
     .offline-icon {
@@ -217,15 +235,15 @@ if (API_KEY && !videoId) {
       transform: translateY(-2px);
     }
 
-    @media (max-width: 1200px) {
-      .video-grid {
+    @media (max-width: 1400px) {
+      .video-grid.has-chat {
         grid-template-columns: 1fr 320px;
         gap: 16px;
       }
     }
 
     @media (max-width: 992px) {
-      .video-grid {
+      .video-grid.has-chat {
         grid-template-columns: 1fr;
       }
       .chat-wrapper {

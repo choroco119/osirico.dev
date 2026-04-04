@@ -24,7 +24,7 @@ const { title, description = "osiri cooperation - ポータルサイト" } = Ast
   </head>
   <body>
     <header class="main-header">
-      <nav class="container nav-content">
+      <nav class="nav-content">
         <a href="/" class="logo">
           <span class="osirico">osiri.co</span>
         </a>
@@ -60,6 +60,8 @@ const { title, description = "osiri cooperation - ポータルサイト" } = Ast
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding: 0px 40px; /* 画面端のパディング */
+        width: 100%;
       }
 
       .logo {
