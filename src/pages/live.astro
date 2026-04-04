@@ -20,15 +20,15 @@ const embedUrl = videoId
 ---
 
 <BaseLayout title="LIVE">
-  <div class="streaming-container" transition:name="live-hero">
+  <div class="streaming-container">
     <div class="status-header glass-panel">
-      <div class="status-icon" transition:name="live-hero-icon">📺</div>
+      <div class="status-icon">📺</div>
       <div class="status-info">
         <div class="status-indicator">
           <span class={`dot ${isLive ? 'live' : 'offline'}`}></span>
           <span class="status-text">{isLive ? 'ON AIR' : 'OFFLINE'}</span>
         </div>
-        <h2 class="stream-title" transition:name="live-hero-title">
+        <h2 class="stream-title">
           {isLive ? 'Currently Streaming' : 'Live Stream Status (Auto-Follow)'}
         </h2>
       </div>

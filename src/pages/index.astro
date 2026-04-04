@@ -2,8 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const apps = [
-  { title: 'LIVE STREAMING', desc: 'YouTubeでのライブ配信とステータス表示', link: '/live', icon: '📺', transitionName: 'live-hero' },
-  { title: 'WEB APPS', desc: 'ブラウザ上で動作する各種ツール', link: '/apps/web', icon: '🌐', transitionName: 'web-apps-hero' },
+  { title: 'LIVE STREAMING', desc: 'YouTubeでのライブ配信とステータス表示', link: '/live', icon: '📺' },
+  { title: 'WEB APPS', desc: 'ブラウザ上で動作する各種ツール', link: '/apps/web', icon: '🌐' },
 ];
 ---
 
@@ -18,10 +18,10 @@ const apps = [
 
   <section class="portal-grid">
     {apps.map(app => (
-      <a href={app.link} class="portal-card glass-panel glow-on-hover" transition:name={app.transitionName}>
-        <div class="card-icon" transition:name={`${app.transitionName}-icon`}>{app.icon}</div>
+      <a href={app.link} class="portal-card glass-panel glow-on-hover">
+        <div class="card-icon">{app.icon}</div>
         <div class="card-body">
-          <h3 transition:name={`${app.transitionName}-title`}>{app.title}</h3>
+          <h3>{app.title}</h3>
           <p>{app.desc}</p>
         </div>
         <div class="card-arrow">→</div>

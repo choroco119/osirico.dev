@@ -1,5 +1,5 @@
-- [x] 実装計画の承認
-- [/] BaseLayout.astro への ViewTransitions 追加
-- [ ] ブラウザでのアニメーション動作確認
-- [ ] walkthrough.md の作成
-- [ ] プロジェクトのdocsフォルダへの記録保存
+- [ ] `src/pages/index.astro` から `transition:name` を削除
+- [ ] `src/pages/live.astro` から `transition:name` を削除
+- [ ] `src/pages/apps/web/index.astro` から `transition:name` を削除
+- [ ] `src/layouts/BaseLayout.astro` の遷移用 CSS を削除
+- [ ] 動作確認（シンプルなフェードであることを確認）

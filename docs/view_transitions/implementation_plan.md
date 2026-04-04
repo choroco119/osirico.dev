@@ -1,21 +1,24 @@
-# [Implementation Plan] View Transitions の導入
+# [Implementation Plan] ヒーロー遷移の解除とフェードへの復帰
 
-Astro の View Transitions API を導入し、マルチページアプリケーション（MPA）でありながら、シングルページアプリケーション（SPA）のような滑らかな画面遷移を実現します。
+個別の要素が移動する「ディープ・ヒーロー遷移」を削除し、シンプルで清潔感のあるフェード遷移に戻します。
 
 ## Proposed Changes
 
-### [Component Name] Layouts / Global
+### 1. 個別要素からの `transition:name` 削除
+以下のファイルの該当箇所から `transition:name` 属性を削除します。
+- **[MODIFY] [index.astro](file:///c:/Users/kohei/.gemini/antigravity/scratch/osiricoop-dev/src/pages/index.astro)**: カード内のアイコンとタイトルのタグ。
+- **[MODIFY] [live.astro](file:///c:/Users/kohei/.gemini/antigravity/scratch/osiricoop-dev/src/pages/live.astro)**: ヘッダーのアイコンとタイトルのタグ。
+- **[MODIFY] [apps/web/index.astro](file:///c:/Users/kohei/.gemini/antigravity/scratch/osiricoop-dev/src/pages/apps/web/index.astro)**: ヘッダーのアイコンとタイトルのタグ。
 
-#### [MODIFY] [BaseLayout.astro](file:///c:/Users/kohei/.gemini/antigravity/scratch/osiricoop-dev/src/layouts/BaseLayout.astro)
-- `astro:transitions` から `ViewTransitions` をインポートします。
-- `<head>` セクションに `<ViewTransitions />` コンポーネントを追加します。
-- これにより、サイト全体の全ページ間でクロスフェード等の遷移アニメーションが有効になります。
+### 2. グローバル遷移スタイルの整理 (`src/layouts/BaseLayout.astro`)
+- `::view-transition-group(live-hero-icon)` 等、個別に定義したスタイルをすべて削除します。
+- 必要に応じて、標準のフェード効果を安定させるための最小限の設定のみ残します。
+
+### 3. デザインの微調整
+- アイコンを追加したことで変更したレイアウト（`grid` 等）は、デザインとして優れている場合はそのまま残し、アニメーション（移動）だけを無効化します。
 
 ## Verification Plan
 
-### Automated Tests
-- ブラウザツールを使用して、ホームページ ( `/` ) から配信ページ ( `/live` ) への遷移を行い、画面が瞬きせずに滑らかに切り替わるか確認します。
-- 開発コンソールで、ページ遷移時に `astro:after-swap` 等のイベントが正しく発火しているか、JS エラーが出ていないかを確認します。
-
 ### Manual Verification
-- ヘッダーの「LIVE」インジケーターが、遷移後も正しく表示・維持されるかを目視で確認します。
+- ホームから各ページへの遷移が、要素の「飛行」なしに、シンプルなフェードで行われることを確認。
+- 遷移時に一瞬だけ要素が重複して表示される等の「ガタつき」がないかを確認。

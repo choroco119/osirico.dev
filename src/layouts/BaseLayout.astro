@@ -171,38 +171,5 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-r
         letter-spacing: 0.05em;
       }
     </style>
-    <style is:global>
-      /* View Transitions Customizations */
-      ::view-transition-group(live-hero),
-      ::view-transition-group(live-hero-icon),
-      ::view-transition-group(live-hero-title),
-      ::view-transition-group(web-apps-hero),
-      ::view-transition-group(web-apps-hero-icon),
-      ::view-transition-group(web-apps-hero-title) {
-        animation-duration: 0.6s;
-        animation-timing-function: cubic-bezier(0.85, 0, 0.15, 1);
-      }
-
-      /* ヒーロー要素が重なり順で最前面に来るように調整 */
-      ::view-transition-new(live-hero),
-      ::view-transition-new(live-hero-icon),
-      ::view-transition-new(live-hero-title),
-      ::view-transition-new(web-apps-hero),
-      ::view-transition-new(web-apps-hero-icon),
-      ::view-transition-new(web-apps-hero-title) {
-        z-index: 100;
-        animation: none;
-      }
-
-      ::view-transition-old(live-hero),
-      ::view-transition-old(live-hero-icon),
-      ::view-transition-old(live-hero-title),
-      ::view-transition-old(web-apps-hero),
-      ::view-transition-old(web-apps-hero-icon),
-      ::view-transition-old(web-apps-hero-title) {
-        z-index: 100;
-        animation: none;
-      }
-    </style>
   </body>
 </html>
