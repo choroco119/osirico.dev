@@ -13,7 +13,7 @@ const { title, description = "osiri cooperation - ポータルサイト" } = Ast
 // 配信状態の取得
 const CHANNEL_ID = (env as any)?.PUBLIC_YOUTUBE_CHANNEL_ID || import.meta.env.PUBLIC_YOUTUBE_CHANNEL_ID || "YOUR_CHANNEL_ID";
 const MANUALLY_SET_VIDEO_ID = (env as any)?.PUBLIC_CURRENT_LIVE_ID || import.meta.env.PUBLIC_CURRENT_LIVE_ID;
-const { isLive } = await getLiveStatus(CHANNEL_ID, MANUALLY_SET_VIDEO_ID);
+const { isLive, title: liveTitle } = await getLiveStatus(CHANNEL_ID, MANUALLY_SET_VIDEO_ID);
 
 // サイト全体に共有キャッシュを設定 (3分間)
 Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-revalidate=600');
@@ -41,8 +41,13 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-r
         <ul class="nav-links">
           <li>
             <a href="/live" class="nav-live-link">
-              LIVE
-              {isLive && <span class="live-indicator" aria-hidden="true"></span>}
+              <span class="nav-live-label">LIVE</span>
+              {isLive && (
+                <>
+                  <span class="live-indicator" aria-hidden="true"></span>
+                  {liveTitle && <span class="live-title">{liveTitle}</span>}
+                </>
+              )}
             </a>
           </li>
           <li><a href="/apps/web">WEB APPS</a></li>
@@ -123,6 +128,23 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-r
         animation: live-blink 2s infinite;
         /* ドットの位置を視覚的に文字の高さに合わせる調整 */
         margin-top: 1px;
+        margin-right: 4px;
+      }
+
+      .live-title {
+        font-size: 0.7rem;
+        font-weight: 400;
+        color: var(--text-secondary);
+        opacity: 0.7;
+        max-width: 250px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        padding-left: 10px;
+        margin-left: 6px;
+        letter-spacing: 0.02em;
+        text-transform: none; /* タイトルは等倍で表示 */
       }
 
       @keyframes live-blink {
