@@ -1,0 +1,4 @@
+- [x] `public/apps/web/room-layout/script.js` に `btn-clear` のイベントリスナーを追加
+- [x] `public/apps/web/room-layout/script.js` の不要なリスナーを削除
+- [x] 動作確認（ブラウザ）
+- [x] `walkthrough.md` の作成とプロジェクトドキュメントの更新

@@ -1,0 +1,3 @@
+- [x] `src/pages/apps/web/room-layout.astro` の `pc-instructions` から `collapsed` クラスを削除
+- [x] ブラウザで初期表示を確認
+- [x] ドキュメントの作成とコピー

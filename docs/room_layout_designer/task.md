@@ -1,0 +1,11 @@
+- [ ] `duplicateSelected()` の修正
+    - [ ] 複製時に `tempDisableCollision: true` を付与
+    - [ ] 複製前後のオブジェクトの対応マップ（ID対応）を返すように変更
+- [ ] `handleMouseMove()` の修正
+    - [ ] 複製実行時に `STATE.interaction.dragTarget.target` を新規オブジェクトに差し替える
+- [ ] 衝突判定ロジックの修正
+    - [ ] `checkCollisions()` で `tempDisableCollision` を持つオブジェクトをスキップ
+    - [ ] `testCollisionWithAny()` で `tempDisableCollision` を持つオブジェクトをスキップ
+- [ ] `handleMouseUp()` の修正
+    - [ ] すべてのオブジェクトから `tempDisableCollision` フラグを削除（クリーンアップ）
+- [ ] 動作確認（手動検証）
