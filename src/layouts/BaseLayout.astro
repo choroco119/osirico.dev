@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { env } from 'cloudflare:workers';
 import { getLiveStatus } from '../lib/youtube';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title: string;
@@ -31,6 +32,7 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-r
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <ClientRouter />
   </head>
   <body>
     <header class="main-header">

@@ -1,0 +1,5 @@
+- [x] 実装計画の承認
+- [/] BaseLayout.astro への ViewTransitions 追加
+- [ ] ブラウザでのアニメーション動作確認
+- [ ] walkthrough.md の作成
+- [ ] プロジェクトのdocsフォルダへの記録保存
