@@ -1,0 +1,4 @@
+- [x] `src/layouts/BaseLayout.astro` に「WINDOWS APPS」のナビゲーションを追加
+- [x] `src/pages/index.astro` に「WINDOWS APPS」のポータルカードを追加
+- [x] `src/pages/apps/windows/index.astro` を新規作成
+- [x] 各リンクの動作確認とデザイン調整

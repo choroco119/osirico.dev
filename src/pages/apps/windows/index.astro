@@ -1,0 +1,148 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const windowsApps = await getCollection('windows-apps');
+---
+
+<BaseLayout title="WINDOWS APPS">
+  <div class="apps-header">
+    <div class="apps-icon-hero">💻</div>
+    <h2 class="sub-title">TOOLBOX</h2>
+    <h1 class="page-title">Windows Applications</h1>
+    <p class="intro">
+      デスクトップで動作する専用アプリケーション
+    </p>
+  </div>
+
+  <div class="apps-grid">
+    {windowsApps.map(app => (
+      <a href={`/apps/windows/${app.id}`} class="app-card glass-panel glow-on-hover">
+        <div class="app-icon">{app.data.icon}</div>
+        <div class="app-info">
+          <div class="app-meta">
+            <h3>{app.data.title}</h3>
+            <span class="version-badge">{app.data.version}</span>
+          </div>
+          <p>{app.data.description}</p>
+        </div>
+        <div class="view-details">
+          View Details & Download ↗
+        </div>
+      </a>
+    ))}
+  </div>
+
+  <style>
+    .apps-header {
+      margin-bottom: 60px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-template-rows: auto auto auto;
+      column-gap: 40px;
+      align-items: center;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 40px;
+    }
+
+    .apps-icon-hero {
+      grid-row: 1 / 4;
+      font-size: 5rem;
+      filter: drop-shadow(0 0 20px var(--accent-glow));
+    }
+
+    .sub-title {
+      grid-column: 2;
+      grid-row: 1;
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.3em;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .page-title {
+      grid-column: 2;
+      grid-row: 2;
+      font-size: 3.5rem;
+      margin: 0;
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .intro {
+      grid-column: 2;
+      grid-row: 3;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 8px 0 0 0;
+      line-height: 1.7;
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 32px;
+    }
+
+    .app-card {
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: relative;
+      background: rgba(255, 255, 255, 0.03);
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .app-icon {
+      font-size: 3rem;
+    }
+
+    .app-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .app-info h3 {
+      font-size: 1.3rem;
+      color: #fff;
+      margin: 0;
+    }
+
+    .version-badge {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      background: rgba(0, 170, 255, 0.1);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .app-info p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .view-details {
+      margin-top: auto;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: all 0.3s ease;
+    }
+
+    .app-card:hover .view-details {
+      color: #fff;
+      text-shadow: 0 0 10px var(--accent-glow);
+    }
+  </style>
+</BaseLayout>

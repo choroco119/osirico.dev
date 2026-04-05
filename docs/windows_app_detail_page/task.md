@@ -1,0 +1,6 @@
+- [x] Astro Content Collections の設定 (`src/content.config.ts`)
+- [x] Universal Input Display の README 作成 (`src/content/windows-apps/universal-input-display.md`)
+- [x] アプリ詳細ページの動的ルート作成 (`src/pages/apps/windows/[id].astro`)
+- [x] アプリ一覧ページ (`src/pages/apps/windows/index.astro`) のリンク更新
+- [x] 動作確認とデザイン調整
+- [x] SSRモードおよびAstro 6 Content Layer APIへの対応

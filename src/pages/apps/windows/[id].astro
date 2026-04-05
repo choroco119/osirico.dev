@@ -1,0 +1,254 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const { id } = Astro.params;
+if (!id) return Astro.redirect('/apps/windows');
+
+const app = await getEntry('windows-apps', id);
+if (!app) return Astro.redirect('/404');
+
+const { Content } = await render(app);
+---
+
+<BaseLayout title={app.data.title}>
+  <div class="app-detail-container">
+    <header class="app-header">
+      <div class="header-main">
+        <div class="app-icon-hero">{app.data.icon}</div>
+        <div class="title-section">
+          <h1 class="app-title">{app.data.title}</h1>
+          <p class="app-subtitle">{app.data.description}</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="main-content-layout">
+      <!-- Download Section At Top -->
+      <section class="download-hero glass-panel">
+        <div class="download-info">
+          <span class="version-label">Latest Version: {app.data.version}</span>
+          <p class="download-desc">最適なパフォーマンスを得るために、最新版をダウンロードしてください。</p>
+        </div>
+        <div class="action-buttons">
+          <a href={app.data.downloadUrl} class="download-button glow-on-hover">
+            <span class="download-icon">📥</span>
+            Download .exe
+          </a>
+          {app.data.repoUrl && (
+            <a href={app.data.repoUrl} target="_blank" rel="noopener noreferrer" class="repo-button glass-panel glow-on-hover">
+              <span class="github-icon">github</span>
+              View Repo
+            </a>
+          )}
+        </div>
+      </section>
+
+      <!-- README Section -->
+      <article class="readme-content glass-panel">
+        <div class="readme-header">
+          <span class="readme-label">README.md</span>
+        </div>
+        <div class="prose">
+          <Content />
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <style>
+    .app-detail-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding-top: 40px;
+    }
+
+    .app-header {
+      margin-bottom: 48px;
+    }
+
+    .header-main {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .app-icon-hero {
+      font-size: 5rem;
+      filter: drop-shadow(0 0 20px var(--accent-glow));
+    }
+
+    .app-title {
+      font-size: 3rem;
+      margin: 0;
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .app-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-top: 8px;
+    }
+
+    .main-content-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    /* Download Hero */
+    .download-hero {
+      padding: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(0, 170, 255, 0.1) 100%);
+      border: 1px solid var(--accent);
+    }
+
+    .download-info {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .version-label {
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .download-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .download-button {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 28px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px var(--accent-glow);
+    }
+
+    .download-button:hover {
+      background: #fff;
+      color: var(--bg-dark);
+      transform: translateY(-4px);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .repo-button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 28px;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .github-icon {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      text-transform: lowercase;
+      letter-spacing: -0.05em;
+    }
+
+    .repo-button:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-4px);
+    }
+
+    /* README Content */
+    .readme-content {
+      padding: 48px;
+    }
+
+    .readme-header {
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .readme-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    /* Prose Styling (Markdown content) */
+    .prose {
+      color: var(--text-primary);
+      line-height: 1.8;
+    }
+
+    .prose :global(h1) {
+      font-size: 2rem;
+      margin-top: 2rem;
+      margin-bottom: 1.5rem;
+      color: #fff;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.5rem;
+    }
+
+    .prose :global(h2) {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .prose :global(p) {
+      margin-bottom: 1.25rem;
+    }
+
+    .prose :global(ul) {
+      margin-bottom: 1.25rem;
+      padding-left: 1.5rem;
+    }
+
+    .prose :global(li) {
+      margin-bottom: 0.5rem;
+    }
+
+    .prose :global(hr) {
+      border: none;
+      border-top: 1px solid var(--border-color);
+      margin: 32px 0;
+    }
+
+    @media (max-width: 768px) {
+      .header-main {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+      }
+      .download-hero {
+        flex-direction: column;
+        gap: 24px;
+        text-align: center;
+      }
+      .app-title {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+</BaseLayout>
