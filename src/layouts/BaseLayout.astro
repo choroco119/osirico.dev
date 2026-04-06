@@ -59,6 +59,13 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-r
           <li><a href="/apps/web">WEB APPS</a></li>
           <li><a href="/apps/windows">WINDOWS APPS</a></li>
         </ul>
+        <div class="social-links">
+          <a href="https://x.com/choroco119" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="X (Twitter)">
+            <svg class="x-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+              <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.294 19.497h2.039L6.486 3.24H4.298l13.31 17.41z"></path>
+            </svg>
+          </a>
+        </div>
       </nav>
     </header>
 
@@ -163,6 +170,33 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-r
           opacity: 0.4;
           transform: scale(0.9);
         }
+      }
+
+      .social-links {
+        display: flex;
+        align-items: center;
+        margin-left: 24px;
+        padding-left: 24px;
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .social-icon-link {
+        color: var(--text-secondary);
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .x-icon {
+        width: 1.1rem;
+        height: 1.1rem;
+      }
+
+      .social-icon-link:hover {
+        color: #fff;
+        transform: translateY(-2px);
+        filter: drop-shadow(0 0 8px var(--accent-glow));
       }
 
       .main-footer {
