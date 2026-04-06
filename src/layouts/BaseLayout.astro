@@ -27,8 +27,12 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-r
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/logo.png" />
     <meta name="generator" content={Astro.generator} />
     <title>{title} | osiri.co</title>
+    <meta property="og:title" content={`${title} | osiri.co`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
