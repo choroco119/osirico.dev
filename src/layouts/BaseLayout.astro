@@ -44,27 +44,34 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-r
         <a href="/" class="logo">
           <span class="osirico">osiri.co</span>
         </a>
-        <ul class="nav-links">
-          <li>
-            <a href="/live" class="nav-live-link">
-              <span class="nav-live-label">LIVE</span>
-              {isLive && (
-                <>
-                  <span class="live-indicator" aria-hidden="true"></span>
-                  {liveTitle && <span class="live-title">{liveTitle}</span>}
-                </>
-              )}
+        <div class="nav-group-right">
+          <ul class="nav-links">
+            <li>
+              <a href="/live" class="nav-live-link">
+                <span class="nav-live-label">LIVE</span>
+                {isLive && (
+                  <>
+                    <span class="live-indicator" aria-hidden="true"></span>
+                    {liveTitle && <span class="live-title">{liveTitle}</span>}
+                  </>
+                )}
+              </a>
+            </li>
+            <li><a href="/apps/web">WEB APPS</a></li>
+            <li><a href="/apps/windows">WINDOWS APPS</a></li>
+          </ul>
+          <div class="social-links">
+            <a href={`https://youtube.com/channel/${CHANNEL_ID}`} target="_blank" rel="noopener noreferrer" class="social-icon-link yt" aria-label="YouTube">
+              <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
+              </svg>
             </a>
-          </li>
-          <li><a href="/apps/web">WEB APPS</a></li>
-          <li><a href="/apps/windows">WINDOWS APPS</a></li>
-        </ul>
-        <div class="social-links">
-          <a href="https://x.com/choroco119" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="X (Twitter)">
-            <svg class="x-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
-              <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.294 19.497h2.039L6.486 3.24H4.298l13.31 17.41z"></path>
-            </svg>
-          </a>
+            <a href="https://x.com/choroco119" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="X (Twitter)">
+              <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.294 19.497h2.039L6.486 3.24H4.298l13.31 17.41z"></path>
+              </svg>
+            </a>
+          </div>
         </div>
       </nav>
     </header>
@@ -90,11 +97,13 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-r
       }
 
       .nav-content {
+        max-width: 1200px;
+        margin: 0 auto;
         height: 66px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0px 40px; /* 画面端のパディング */
+        padding: 0px 40px;
         width: 100%;
       }
 
@@ -172,10 +181,16 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-r
         }
       }
 
+      .nav-group-right {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+      }
+
       .social-links {
         display: flex;
         align-items: center;
-        margin-left: 24px;
+        gap: 16px;
         padding-left: 24px;
         border-left: 1px solid rgba(255, 255, 255, 0.1);
       }
@@ -188,14 +203,22 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-r
         justify-content: center;
       }
 
-      .x-icon {
-        width: 1.1rem;
-        height: 1.1rem;
+      .social-icon {
+        width: 1.2rem;
+        height: 1.2rem;
       }
 
       .social-icon-link:hover {
         color: #fff;
         transform: translateY(-2px);
+      }
+
+      .social-icon-link.yt:hover {
+        color: #ff0000;
+        filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.5));
+      }
+
+      .social-icon-link:not(.yt):hover {
         filter: drop-shadow(0 0 8px var(--accent-glow));
       }
 
@@ -208,6 +231,56 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-r
         color: var(--text-secondary);
         font-size: 0.75rem;
         letter-spacing: 0.05em;
+      }
+
+      /* Mobile Styles */
+      @media (max-width: 768px) {
+        .nav-content {
+          padding: 0 16px;
+          height: auto;
+          min-height: 66px;
+          flex-wrap: wrap; /* 小さい画面で入り切らない場合、安全に折り返す */
+          justify-content: center;
+          gap: 8px;
+          padding-top: 12px;
+          padding-bottom: 12px;
+        }
+
+        .nav-group-right {
+          gap: 16px;
+          width: 100%;
+          justify-content: center;
+        }
+
+        .nav-links {
+          gap: 12px;
+        }
+
+        .nav-links a {
+          font-size: 0.7rem;
+        }
+
+        .social-links {
+          padding-left: 12px;
+          gap: 12px;
+        }
+
+        .live-title {
+          max-width: 120px;
+          font-size: 0.65rem;
+        }
+      }
+
+      /* Super Small screens */
+      @media (max-width: 480px) {
+        .nav-links {
+          margin-bottom: 8px;
+        }
+        .social-links {
+          border-left: none;
+          padding-left: 0;
+          margin-top: 4px;
+        }
       }
     </style>
   </body>
