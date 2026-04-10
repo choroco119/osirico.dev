@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
 import { env } from 'cloudflare:workers';
-import { getLiveStatus } from '../lib/youtube';
 import { ClientRouter } from 'astro:transitions';
 
 interface Props {
@@ -11,13 +10,8 @@ interface Props {
 
 const { title, description = "osiri cooperation - ポータルサイト" } = Astro.props;
 
-// 配信状態の取得
+// 配信元のチャンネルIDを取得
 const CHANNEL_ID = (env as any)?.PUBLIC_YOUTUBE_CHANNEL_ID || import.meta.env.PUBLIC_YOUTUBE_CHANNEL_ID || "YOUR_CHANNEL_ID";
-const MANUALLY_SET_VIDEO_ID = (env as any)?.PUBLIC_CURRENT_LIVE_ID || import.meta.env.PUBLIC_CURRENT_LIVE_ID;
-const { isLive, title: liveTitle } = await getLiveStatus(CHANNEL_ID, MANUALLY_SET_VIDEO_ID);
-
-// サイト全体に共有キャッシュを設定 (3分間)
-Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-revalidate=600');
 ---
 
 <!doctype html>
@@ -46,17 +40,6 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-r
         </a>
         <div class="nav-group-right">
           <ul class="nav-links">
-            <li>
-              <a href="/live" class="nav-live-link">
-                <span class="nav-live-label">LIVE</span>
-                {isLive && (
-                  <>
-                    <span class="live-indicator" aria-hidden="true"></span>
-                    {liveTitle && <span class="live-title">{liveTitle}</span>}
-                  </>
-                )}
-              </a>
-            </li>
             <li><a href="/apps/web">WEB APPS</a></li>
             <li><a href="/apps/windows">WINDOWS APPS</a></li>
           </ul>
@@ -140,34 +123,6 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-r
 
       .nav-links a:hover {
         color: var(--accent);
-      }
-
-      .live-indicator {
-        width: 8px;
-        height: 8px;
-        background-color: #ff4b2b;
-        border-radius: 50%;
-        box-shadow: 0 0 10px rgba(255, 75, 43, 0.5);
-        animation: live-blink 2s infinite;
-        /* ドットの位置を視覚的に文字の高さに合わせる調整 */
-        margin-top: 1px;
-        margin-right: 4px;
-      }
-
-      .live-title {
-        font-size: 0.7rem;
-        font-weight: 400;
-        color: var(--text-secondary);
-        opacity: 0.7;
-        max-width: 250px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        border-left: 1px solid rgba(255, 255, 255, 0.1);
-        padding-left: 10px;
-        margin-left: 6px;
-        letter-spacing: 0.02em;
-        text-transform: none; /* タイトルは等倍で表示 */
       }
 
       @keyframes live-blink {
@@ -263,11 +218,6 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=180, stale-while-r
         .social-links {
           padding-left: 12px;
           gap: 12px;
-        }
-
-        .live-title {
-          max-width: 120px;
-          font-size: 0.65rem;
         }
       }
 
