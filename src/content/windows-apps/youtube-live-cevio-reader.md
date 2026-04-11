@@ -2,7 +2,7 @@
 title: "YouTube Live CeVIO Reader"
 description: "YouTubeライブのチャットをCeVIO AIがリアルタイムで読み上げるツール"
 version: "v1.0.0"
-downloadUrl: "https://github.com/choroco119/YouTubeLiveCeVIOReader/releases/latest"
+downloadUrl: "https://github.com/choroco119/YouTubeLiveCeVIOReader/releases/download/v1.0.0/YouTubeLiveCeVIOReader.exe"
 repoUrl: "https://github.com/choroco119/YouTubeLiveCeVIOReader"
 icon: "🎙️"
 ---
