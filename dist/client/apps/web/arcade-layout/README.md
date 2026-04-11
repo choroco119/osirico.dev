@@ -31,4 +31,4 @@
 - **ロック機能**: 位置が決まったパーツは、プロパティパネルで「位置を固定」にチェックを入れると、誤操作による移動を防げます。
 
 ---
-製作：[osirico.dev](https://osirico.dev)
+製作：[osiri.co](https://osirico.dev)
