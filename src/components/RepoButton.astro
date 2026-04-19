@@ -1,0 +1,38 @@
+---
+interface Props {
+  url: string;
+}
+
+const { url } = Astro.props;
+---
+
+<a href={url} target="_blank" rel="noopener noreferrer" class="repo-button glass-panel glow-on-hover">
+  <span class="github-icon">github</span>
+  Repo
+</a>
+
+<style>
+  .repo-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 28px;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #fff;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+  }
+
+  .github-icon {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    text-transform: lowercase;
+    letter-spacing: -0.05em;
+  }
+
+  .repo-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-4px);
+  }
+</style>

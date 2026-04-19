@@ -1,0 +1,84 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  app: CollectionEntry<'windows-apps'>;
+}
+
+const { app } = Astro.props;
+---
+
+<a href={`/apps/windows/${app.id}`} class="app-card glass-panel glow-on-hover">
+  <div class="app-icon">{app.data.icon}</div>
+  <div class="app-info">
+    <div class="app-meta">
+      <h3>{app.data.title}</h3>
+      <span class="version-badge">{app.data.version}</span>
+    </div>
+    <p>{app.data.description}</p>
+  </div>
+  <div class="view-details">
+    View Details & Download ↗
+  </div>
+</a>
+
+<style>
+  .app-card {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .app-icon {
+    font-size: 3rem;
+  }
+
+  .app-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+
+  .app-info h3 {
+    font-size: 1.3rem;
+    color: #fff;
+    margin: 0;
+  }
+
+  .version-badge {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    background: rgba(0, 170, 255, 0.1);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 4px;
+    font-weight: 700;
+  }
+
+  .app-info p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .view-details {
+    margin-top: auto;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+  }
+
+  .app-card:hover .view-details {
+    color: #fff;
+    text-shadow: 0 0 10px var(--accent-glow);
+  }
+</style>

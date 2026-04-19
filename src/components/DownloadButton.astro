@@ -1,0 +1,34 @@
+---
+interface Props {
+  url: string;
+}
+
+const { url } = Astro.props;
+---
+
+<a href={url} class="download-button glow-on-hover">
+  <span class="download-icon">📥</span>
+  Download
+</a>
+
+<style>
+  .download-button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px var(--accent-glow);
+  }
+
+  .download-button:hover {
+    background: #fff;
+    color: var(--bg-dark);
+    transform: translateY(-4px);
+  }
+</style>
