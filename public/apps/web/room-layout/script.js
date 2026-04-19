@@ -223,6 +223,20 @@ function setupPropertyListeners() {
     });
     
     // Background Image Adjustments
+    const bgXEl = document.getElementById('prop-bg-x');
+    if (bgXEl) {
+        bgXEl.addEventListener('input', (e) => {
+            STATE.config.bgImageX = Number(e.target.value);
+            render();
+        });
+    }
+    const bgYEl = document.getElementById('prop-bg-y');
+    if (bgYEl) {
+        bgYEl.addEventListener('input', (e) => {
+            STATE.config.bgImageY = Number(e.target.value);
+            render();
+        });
+    }
     const bgScaleEl = document.getElementById('prop-bg-scale');
     if (bgScaleEl) {
         bgScaleEl.addEventListener('input', (e) => {
@@ -259,9 +273,11 @@ function render() {
             els.bgImgLayer.src = backgroundImage;
             els.bgImgLayer.style.display = 'block';
             
+            const bgX = STATE.config.bgImageX ?? 0;
+            const bgY = STATE.config.bgImageY ?? 0;
             const internalScale = STATE.config.bgImageScale ?? 1.0;
             const combinedScale = scale * internalScale;
-            els.bgImgLayer.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${combinedScale})`;
+            els.bgImgLayer.style.transform = `translate(${offsetX + bgX * scale}px, ${offsetY + bgY * scale}px) scale(${combinedScale})`;
             
             const opacity = STATE.config.bgImageOpacity ?? 0.4;
             els.bgImgLayer.style.opacity = opacity;
@@ -269,6 +285,14 @@ function render() {
             const bgPanel = document.getElementById('panel-bg-settings');
             if (bgPanel) bgPanel.style.display = 'block';
             
+            const propBgX = document.getElementById('prop-bg-x');
+            if (propBgX && document.activeElement !== propBgX) {
+                propBgX.value = bgX;
+            }
+            const propBgY = document.getElementById('prop-bg-y');
+            if (propBgY && document.activeElement !== propBgY) {
+                propBgY.value = bgY;
+            }
             const propBgScale = document.getElementById('prop-bg-scale');
             if (propBgScale && document.activeElement !== propBgScale) {
                 propBgScale.value = internalScale * 100;
