@@ -221,6 +221,23 @@ function setupPropertyListeners() {
             el.addEventListener('change', updateSelectedObject);
         }
     });
+    
+    // Background Image Adjustments
+    const bgScaleEl = document.getElementById('prop-bg-scale');
+    if (bgScaleEl) {
+        bgScaleEl.addEventListener('input', (e) => {
+            STATE.config.bgImageScale = Number(e.target.value) / 100;
+            render();
+        });
+    }
+    const bgOpacityEl = document.getElementById('prop-bg-opacity');
+    if (bgOpacityEl) {
+        bgOpacityEl.addEventListener('input', (e) => {
+            STATE.config.bgImageOpacity = Number(e.target.value) / 100;
+            render();
+        });
+    }
+
     document.getElementById('btn-delete-object').addEventListener('click', (e) => {
         e.preventDefault();
         deleteSelected();
@@ -241,9 +258,29 @@ function render() {
         if (backgroundImage) {
             els.bgImgLayer.src = backgroundImage;
             els.bgImgLayer.style.display = 'block';
-            els.bgImgLayer.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+            
+            const internalScale = STATE.config.bgImageScale ?? 1.0;
+            const combinedScale = scale * internalScale;
+            els.bgImgLayer.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${combinedScale})`;
+            
+            const opacity = STATE.config.bgImageOpacity ?? 0.4;
+            els.bgImgLayer.style.opacity = opacity;
+            
+            const bgPanel = document.getElementById('panel-bg-settings');
+            if (bgPanel) bgPanel.style.display = 'block';
+            
+            const propBgScale = document.getElementById('prop-bg-scale');
+            if (propBgScale && document.activeElement !== propBgScale) {
+                propBgScale.value = internalScale * 100;
+            }
+            const propBgOpacity = document.getElementById('prop-bg-opacity');
+            if (propBgOpacity && document.activeElement !== propBgOpacity) {
+                propBgOpacity.value = opacity * 100;
+            }
         } else {
             els.bgImgLayer.style.display = 'none';
+            const bgPanel = document.getElementById('panel-bg-settings');
+            if (bgPanel) bgPanel.style.display = 'none';
         }
     }
 
