@@ -277,7 +277,7 @@ function render() {
             const bgY = STATE.config.bgImageY ?? 0;
             const internalScale = STATE.config.bgImageScale ?? 1.0;
             const combinedScale = scale * internalScale;
-            els.bgImgLayer.style.transform = `translate(${offsetX + bgX * scale}px, ${offsetY + bgY * scale}px) scale(${combinedScale})`;
+            els.bgImgLayer.style.transform = `translate(${offsetX + bgX * scale}px, ${offsetY - bgY * scale}px) scale(${combinedScale})`;
             
             const opacity = STATE.config.bgImageOpacity ?? 0.4;
             els.bgImgLayer.style.opacity = opacity;
