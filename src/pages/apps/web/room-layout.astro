@@ -26,6 +26,7 @@
             </div>
             <div class="top-actions">
                 <button id="btn-readme" class="btn btn-secondary" style="width: auto;">使い方</button>
+                <button id="btn-import-bg" class="btn btn-secondary">背景画像</button>
                 <button id="btn-export-json" class="btn btn-secondary">保存 (JSON)</button>
                 <button id="btn-import-json" class="btn btn-secondary">読込 (JSON)</button>
                 <button id="btn-clear" class="btn btn-danger">クリア</button>
@@ -66,6 +67,7 @@
             <section id="main-view" class="canvas-viewport active">
                 <div id="selection-marquee" class="selection-marquee"></div>
                 <div id="canvas-container" class="canvas-container">
+                    <img id="bg-img-layer" class="bg-img-layer" src="" alt="" style="display: none;" />
                     <div id="canvas" class="canvas">
                         <!-- 家具オブジェクトがここに動的に追加される -->
                     </div>
@@ -133,6 +135,11 @@
                                 <div id="color-palette" class="color-palette">
                                     <!-- JSで生成 -->
                                 </div>
+                            </div>
+                            
+                            <div class="input-group" id="group-prop-memo" style="margin-top: 12px; flex-direction: column; align-items: stretch;">
+                                <label style="margin-bottom: 4px;">メモ</label>
+                                <textarea id="prop-memo" rows="3" placeholder="自由にメモを入力..."></textarea>
                             </div>
                         </div>
 

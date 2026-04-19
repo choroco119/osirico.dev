@@ -48,6 +48,7 @@ const els = {
     canvasContainer: document.getElementById('canvas-container'),
     canvas: document.getElementById('canvas'),
     wallSvg: document.getElementById('wall-svg'),
+    bgImgLayer: document.getElementById('bg-img-layer'),
     vertexLayer: document.getElementById('vertex-layer'),
     propPanel: document.getElementById('property-panel'),
     noSelectionMsg: document.getElementById('no-selection-msg'),
@@ -131,7 +132,6 @@ function setupEventListeners() {
         if (e.key === 'Control') STATE.keys.ctrl = false;
     });
 
-    // Persistence
     document.getElementById('btn-export-json').onclick = exportJSON;
     document.getElementById('btn-import-json').onclick = () => document.getElementById('import-file').click();
     
@@ -142,6 +142,19 @@ function setupEventListeners() {
     fileInput.style.display = 'none';
     fileInput.onchange = (e) => importJSON(e);
     document.body.appendChild(fileInput);
+
+    // Background Image Import
+    const btnImportBg = document.getElementById('btn-import-bg');
+    if (btnImportBg) {
+        btnImportBg.onclick = () => document.getElementById('import-bg-file').click();
+    }
+    const bgFileInput = document.createElement('input');
+    bgFileInput.type = 'file';
+    bgFileInput.id = 'import-bg-file';
+    bgFileInput.accept = 'image/*';
+    bgFileInput.style.display = 'none';
+    bgFileInput.onchange = (e) => importBgImage(e);
+    document.body.appendChild(bgFileInput);
     
     // Property Panel buttons
     const btnDuplicate = document.getElementById('btn-duplicate-object');
@@ -199,7 +212,7 @@ function getEvtCoords(e) {
 }
 
 function setupPropertyListeners() {
-    const inputs = ['prop-name', 'prop-x', 'prop-y', 'prop-rotation', 'prop-layer', 'prop-lock', 'prop-collision'];
+    const inputs = ['prop-name', 'prop-x', 'prop-y', 'prop-rotation', 'prop-layer', 'prop-lock', 'prop-collision', 'prop-memo'];
     inputs.forEach(id => {
         const el = document.getElementById(id);
         if (!el) return;
@@ -217,12 +230,22 @@ function setupPropertyListeners() {
 // --- RENDERING ---
 
 function render() {
-    const { scale, offsetX, offsetY } = STATE.config;
+    const { scale, offsetX, offsetY, backgroundImage } = STATE.config;
     
     // Update Canvas Container Transform
     els.canvas.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
     els.wallSvg.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
     els.vertexLayer.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+    
+    if (els.bgImgLayer) {
+        if (backgroundImage) {
+            els.bgImgLayer.src = backgroundImage;
+            els.bgImgLayer.style.display = 'block';
+            els.bgImgLayer.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+        } else {
+            els.bgImgLayer.style.display = 'none';
+        }
+    }
 
     renderWalls();
     renderObjects();
@@ -641,7 +664,8 @@ function addObject(shape) {
         layer: 'floor',
         color: '#4a9eff',
         isColliding: false,
-        enableCollision: true
+        enableCollision: true,
+        memo: ""
     };
 
     if (shape === 'rectangle') {
@@ -687,6 +711,17 @@ function importJSON(e) {
         }
     };
     reader.readAsText(file);
+}
+
+function importBgImage(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        STATE.config.backgroundImage = e.target.result;
+        render();
+    };
+    reader.readAsDataURL(file);
 }
 
 function selectObject(id, startDrag = true, shiftKey = false) {
@@ -868,6 +903,8 @@ function updatePropertyPanel() {
         document.getElementById('group-prop-y').style.display = isMulti ? 'none' : 'flex';
         document.getElementById('group-prop-rotation').style.display = isMulti ? 'none' : 'flex';
         document.getElementById('dim-controls').style.display = isMulti ? 'none' : 'block';
+        const groupPropMemo = document.getElementById('group-prop-memo');
+        if (groupPropMemo) groupPropMemo.style.display = isMulti ? 'none' : 'flex';
         
         // Show object-specific props (might have been hidden by vertex selection)
         document.getElementById('object-specific-props').style.display = 'block';
@@ -881,8 +918,10 @@ function updatePropertyPanel() {
         document.getElementById('prop-y').value = Math.round(obj.y);
         document.getElementById('prop-lock').checked = !!obj.isLocked;
         document.getElementById('prop-collision').checked = obj.enableCollision !== false;
-        document.getElementById('prop-rotation').value = obj.rotation;
-        document.getElementById('prop-layer').value = obj.layer;
+        document.getElementById('prop-rotation').value = obj.rotation || 0;
+        document.getElementById('prop-layer').value = obj.layer || 'floor';
+        const propMemo = document.getElementById('prop-memo');
+        if (propMemo) propMemo.value = obj.memo || '';
 
         // Disable inputs if locked (especially for single select)
         const locked = !!obj.isLocked;
@@ -972,6 +1011,8 @@ function updateSelectedObject(e) {
             // Single select specific props
             if (!isMulti) {
                 obj.name = document.getElementById('prop-name').value;
+                const propMemo = document.getElementById('prop-memo');
+                if (propMemo) obj.memo = propMemo.value;
                 if (!obj.isLocked || (e && e.target && e.target.id === 'prop-lock')) {
                     obj.x = Number(document.getElementById('prop-x').value);
                     obj.y = Number(document.getElementById('prop-y').value);
